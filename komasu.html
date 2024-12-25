@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>todai2024komasu</title>
+<style>
+body {
+    background-image: url('back.png');
+    background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
+  }
+
+  #videoPlayer {
+    display: none;
+  }
+
+  .gif-container {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 58%;
+    height: 58%;
+  }
+
+  .gif-container img {
+    width: 175%; /* 元のサイズの倍 */
+    height: auto; /* アスペクト比を維持 */
+  }
+
+  #strike, #ball ,#foul, #fourball, #bsteel, #single, #double, #triple, #homerun, #error, #ssteel {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 9em;
+    font-weight: 700;
+    background-color: white;
+    display: flex;
+}
+
+#pitcher, #catcher ,#first, #second, #third, #short, #left, #right, #center, #strikeout, #out, #heisatu, #sacrifice, #runner{
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 9em;
+    font-weight: 700;
+    background-color: red;
+    display: flex;
+    color: white;
+}
+
+#single1, #double1, #triple1, #homerun1, #error1, #fourball1, #pitcher1, #catcher1 ,#first1, #second1, #third1, #short1, #left1, #right1, #center1, #heisatu1{
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 9em;
+    font-weight: 700;
+    background-color: blue;
+    display: flex;
+    color: white;
+}
+
+#inputField {
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 600px; /* 横幅を150pxに設定 */
+        height: 150px;
+        padding: 10px;
+        box-sizing: border-box; /* paddingを要素の幅に含める */
+        font-size: 75px; /* テキストの大きさを18pxに設定 */
+        font-weight: bold;
+        background-color: black;
+        color: yellow;
+    }
+
+#inputField2 {
+    position: fixed;
+    bottom: 0; /* 下に固定 */
+    left: 0;
+    width: 1000px; /* 横幅を800pxに設定 */
+    height: 100px;
+    padding: 10px;
+    box-sizing: border-box; /* paddingを要素の幅に含める */
+    font-size: 60px; /* テキストの大きさを60pxに設定 */
+    font-weight: bold;
+    background-color: black;
+    color: red;
+}
+
+#inputField2 {
+    display: none; /* 初期状態では非表示 */
+  }
+
+</style>
+</head>
+<body>
+
+<input type="text" id="inputField" placeholder="一回表">
+<input type="text" id="inputField2" placeholder="選手交代">
+
+<!-- <div id="a-container" class="gif-container">
+  <img src="cat.gif" alt="a.gif">
+</div> -->
+
+
+<!--<video id="videoPlayer" controls width="400">
+  <source src="dragons.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video> -->
+
+
+<div id="b-container" class="gif-container">
+  <img src="pitch2.gif" alt="b.gif">
+</div>
+
+<div id="c-container" class="gif-container">
+    <img src="kensei2.gif" alt="pickoff">
+  </div>
+
+<div id="d-container" class="gif-container">
+    <img src="quick2.gif" alt="quick pitch">
+  </div>
+
+<div id="e-container" class="gif-container">
+    <img src="e.gif" alt="quick pitch">
+  </div>
+
+<div id="strike" style="display: none;">
+    <p>ストライク</p>
+  </div>
+
+<div id="ball" style="display: none;">
+    <p>ボール</p>
+  </div>
+
+  <div id="foul" style="display: none;">
+    <p>ファール</p>
+  </div>
+
+  <div id="fourball" style="display: none;">
+    <p>四死球</p>
+  </div>
+
+  <div id="fourball1" style="display: none;">
+    <p>四死球</p>
+  </div>
+
+<div id="strikeout" style="display: none;">
+    <p>三振</p>
+  </div>
+
+  <div id="out" style="display: none;">
+    <p>アウト</p>
+  </div>
+
+  <div id="heisatu" style="display: none;">
+    <p>併殺</p>
+  </div>
+
+  <div id="heisatu1" style="display: none;">
+    <p>併殺</p>
+  </div>
+
+  <div id="sacrifice" style="display: none;">
+    <p>犠牲バント</p>
+  </div>
+
+  <div id="ssteel" style="display: none;">
+    <p>ストライク<br>盗塁
+    </p>
+  </div>
+
+  <div id="bsteel" style="display: none;">
+    <p>ボール<br>盗塁
+    </p>
+  </div>
+
+  <div id="single" style="display: none;">
+    <p>ヒット</p>
+  </div>
+
+  <div id="double" style="display: none;">
+    <p>ツーベース<br>ヒット</p>
+  </div>
+
+  <div id="triple" style="display: none;">
+    <p>スリーベース<br>ヒット</p>
+  </div>
+
+  <div id="homerun" style="display: none;">
+    <p>ホームラン</p>
+  </div>
+  
+  <div id="error" style="display: none;">
+    <p>エラー</p>
+  </div>
+
+  <div id="pitcher" style="display: none;">
+    <p>ピッチャー</p>
+  </div>
+
+  <div id="catcher" style="display: none;">
+    <p>キャッチャー</p>
+  </div>
+
+  <div id="first" style="display: none;">
+    <p>ファースト</p>
+  </div>
+
+  <div id="second" style="display: none;">
+    <p>セカンド</p>
+  </div>
+
+  <div id="third" style="display: none;">
+    <p>サード</p>
+  </div>
+
+  <div id="short" style="display: none;">
+    <p>ショート</p>
+  </div>
+
+  <div id="left" style="display: none;">
+    <p>レフト</p>
+  </div>
+
+  <div id="center" style="display: none;">
+    <p>センター</p>
+  </div>
+
+  <div id="right" style="display: none;">
+    <p>ライト</p>
+  </div>
+
+  <div id="single1" style="display: none;">
+    <p>ヒット</p>
+  </div>
+
+  <div id="double1" style="display: none;">
+    <p>ツーベース<br>ヒット</p>
+  </div>
+
+  <div id="triple1" style="display: none;">
+    <p>スリーベース<br>ヒット</p>
+  </div>
+
+  <div id="homerun1" style="display: none;">
+    <p>ホームラン</p>
+  </div>
+  
+  <div id="error1" style="display: none;">
+    <p>エラー</p>
+  </div>
+
+  <div id="pitcher1" style="display: none;">
+    <p>ピッチャー</p>
+  </div>
+
+  <div id="catcher1" style="display: none;">
+    <p>キャッチャー</p>
+  </div>
+
+  <div id="first1" style="display: none;">
+    <p>ファースト</p>
+  </div>
+
+  <div id="second1" style="display: none;">
+    <p>セカンド</p>
+  </div>
+
+  <div id="third1" style="display: none;">
+    <p>サード</p>
+  </div>
+
+  <div id="short1" style="display: none;">
+    <p>ショート</p>
+  </div>
+
+  <div id="left1" style="display: none;">
+    <p>レフト</p>
+  </div>
+
+  <div id="center1" style="display: none;">
+    <p>センター</p>
+  </div>
+
+  <div id="right1" style="display: none;">
+    <p>ライト</p>
+  </div>
+
+  <div id="runner" style="display: none;">
+    <p>走塁死</p>
+  </div>
+
+<script>
+    function addRandomQueryParam(url) {
+    var randomParam = Date.now(); 
+    if (url.indexOf('?') === -1) {
+        return url + '?t=' + randomParam;
+    } else {
+        return url + '&t=' + randomParam;
+    }
+}
+
+function initialize1() {
+    // pitch2.gif の初期化処理
+    var pitch2Gif = document.getElementById('b-container').getElementsByTagName('img')[0];
+    pitch2Gif.src = addRandomQueryParam(pitch2Gif.src); // ランダムなクエリパラメータを追加して再読み込み
+}
+
+function initialize2() {
+    var quick2Gif = document.getElementById('d-container').getElementsByTagName('img')[0];
+    quick2Gif.src = addRandomQueryParam(quick2Gif.src); // ランダムなクエリパラメータを追加して再読み込み
+}
+
+function initialize3() {
+    var kensei2Gif = document.getElementById('c-container').getElementsByTagName('img')[0];
+    kensei2Gif.src = addRandomQueryParam(kensei2Gif.src); // ランダムなクエリパラメータを追加して再読み込み
+}
+
+    function toggleDisplay1(elementId, displayTime) {
+    initialize1();
+    document.getElementById('b-container').style.display = 'block';
+    setTimeout(function() {
+      document.getElementById('b-container').style.display = 'none';
+      document.getElementById(elementId).style.display = 'block';
+      setTimeout(function() {
+        document.getElementById(elementId).style.display = 'none';
+      }, displayTime);
+    }, 7000);
+  }
+
+    function toggleDisplay2(elementId, displayTime) {
+    initialize2();
+    document.getElementById('d-container').style.display = 'block';
+    setTimeout(function() {
+      document.getElementById('d-container').style.display = 'none';
+      document.getElementById(elementId).style.display = 'block';
+      setTimeout(function() {
+        document.getElementById(elementId).style.display = 'none';
+      }, displayTime);
+    }, 9000);
+  }
+
+  document.addEventListener('keydown', function(event) {
+    if (event.code === 'Space') {
+      const inputField2 = document.getElementById('inputField2');
+      inputField2.style.display = 'block';
+      setTimeout(function() {
+        inputField2.style.display = 'none';
+      }, 120000);
+    }
+   if (document.activeElement !== inputField && document.activeElement !== inputField2) {
+    if (event.key === 'P') {
+      initialize3();
+      document.getElementById('c-container').style.display = 'block';
+      setTimeout(function() {
+      document.getElementById('c-container').style.display = 'none';
+      }, 10000); 
+    } else if (event.key === 's') {
+      toggleDisplay1('strike', 3000);
+    } else if (event.key === 'b') {
+      toggleDisplay1('ball', 3000);
+    } else if (event.key === 'f') {
+      toggleDisplay1('foul', 3000);
+    } else if (event.key === 'c') {
+      toggleDisplay1('fourball', 3000);
+    } else if (event.key === 'k') {
+      toggleDisplay1('strikeout', 3000);
+    } else if (event.key === '1') {
+      toggleDisplay1('pitcher', 3000);
+    } else if (event.key === '2') {
+      toggleDisplay1('catcher', 3000);
+    } else if (event.key === '3') {
+      toggleDisplay1('first', 3000);
+    } else if (event.key === '4') {
+      toggleDisplay1('second', 3000);
+    } else if (event.key === '5') {
+      toggleDisplay1('third', 3000);
+    } else if (event.key === '6') {
+      toggleDisplay1('short', 3000);
+    } else if (event.key === '7') {
+      toggleDisplay1('left', 3000);
+    } else if (event.key === '8') {
+      toggleDisplay1('center', 3000);
+    } else if (event.key === '9') {
+      toggleDisplay1('right', 3000);
+    } else if (event.key === 'g') {
+      toggleDisplay1('sacrifice', 3000);
+    } else if (event.key === 'U') {
+      toggleDisplay2('bsteel', 3000);
+    } else if (event.key === 'i') {
+      toggleDisplay1('single', 3000);
+    } else if (event.key === 'd') {
+      toggleDisplay1('double', 3000);
+    } else if (event.key === 't') {
+      toggleDisplay1('triple', 3000);
+    } else if (event.key === 'x') {
+      toggleDisplay1('homerun', 3000);
+    } else if (event.key === 'e') {
+      toggleDisplay1('error', 3000);
+    } else if (event.key === 'S') {
+      toggleDisplay2('strike', 3000);
+    } else if (event.key === 'B') {
+      toggleDisplay2('ball', 3000);
+    } else if (event.key === 'F') {
+      toggleDisplay2('foul', 3000);
+    } else if (event.key === 'C') {
+      toggleDisplay2('fourball', 3000);
+    } else if (event.key === 'K') {
+      toggleDisplay2('strikeout', 3000);
+    } else if (event.key === 'o') {
+      toggleDisplay1('out', 3000);
+    } else if (event.key === 'O') {
+      toggleDisplay2('out', 3000);
+    } else if (event.key === 'G') {
+      toggleDisplay2('sacrifice', 3000);
+    } else if (event.key === 'L') {
+      toggleDisplay2('ssteel', 3000);
+    } else if (event.key === 'I') {
+      toggleDisplay2('single', 3000);
+    } else if (event.key === 'D') {
+      toggleDisplay2('double', 3000);
+    } else if (event.key === 'T') {
+      toggleDisplay2('triple', 3000);
+    } else if (event.key === 'X') {
+      toggleDisplay2('homerun', 3000);
+    } else if (event.key === 'E') {
+      toggleDisplay2('error', 3000);
+    } else if (event.key === 'H') {
+      toggleDisplay2('heisatu', 3000);
+    } else if (event.key === '˙') {
+      toggleDisplay2('heisatu1', 3000);
+    } else if (event.key === 'Ç') {
+      toggleDisplay1('fourball1', 3000);
+    } else if (event.key === '¡') {
+      toggleDisplay1('pitcher1', 3000);
+    } else if (event.key === '™') {
+      toggleDisplay1('catcher1', 3000);
+    } else if (event.key === '£') {
+      toggleDisplay1('first1', 3000);
+    } else if (event.key === '¢') {
+      toggleDisplay1('second1', 3000);
+    } else if (event.key === '∞') {
+      toggleDisplay1('third1', 3000);
+    } else if (event.key === '§') {
+      toggleDisplay1('short1', 3000);
+    } else if (event.key === '¶') {
+      toggleDisplay1('left1', 3000);
+    } else if (event.key === '•') {
+      toggleDisplay1('center1', 3000);
+    } else if (event.key === 'ª') {
+      toggleDisplay1('right1', 3000);
+    } else if (event.key === '©') {
+      toggleDisplay1('sacrifice1', 3000);
+    } else if (event.key === '¨') {
+      toggleDisplay2('bsteel1', 3000);
+    } else if (event.key === 'Ò') {
+      toggleDisplay2('ssteel1', 3000);
+    }else if (event.key === 'ˆ') {
+      toggleDisplay2('single1', 3000);
+    } else if (event.key === 'Î') {
+      toggleDisplay2('double1', 3000);
+    } else if (event.key === '†') {
+      toggleDisplay2('triple1', 3000);
+    } else if (event.key === '≈') {
+      toggleDisplay1('homerun1', 3000);
+    } else if (event.key === 'r') {
+      toggleDisplay2('runner', 3000);
+    } else if (event.key === 'R') {
+      toggleDisplay2('runner', 3000);
+    } else if (event.key === '´') {
+      toggleDisplay2('error1', 3000);
+    } else if (event.key === '_') {
+        ['a-container', 'e-container','b-container','c-container', 'd-container','strike', 'ball','strikeout', 'out','foul', 'fourball','sacrifice', 'steel','single', 'double','triple', 'homerun','error'].forEach(function(id) {
+            document.getElementById(id).style.display = 'none';
+        });
+    } else if (event.key === '+') {
+    var video = document.getElementById("videoPlayer");
+    video.style.display = "block";
+    video.requestFullscreen();
+    video.play();
+  }
+}
+  });
+  
+document.addEventListener("DOMContentLoaded", function() {
+    var inputField = document.getElementById("inputField");
+});
+</script>
+
+</body>
+</html>
