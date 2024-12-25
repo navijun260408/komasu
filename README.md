@@ -20,6 +20,10 @@
 その他のアウトは守備位置の番号  
 （例えばショートなら6、これはクイック映像なし）  
 
+R6に使用した動画(gif)は以下のドライブからダウンロードできる。（同じディレクトリにないと読み込めないので注意）  
+https://drive.google.com/drive/folders/1iU7KkuqQH2Oq52yDJ9Ru-bijexV_IyO0?usp=sharing
+
+
 質問等あればR6卒菊竹まで（junkiku0408@iloud.com）　　
 
 映像を変えたい場合はHTML上のファイル名に合わせるか、新しいbranchを作って編集してもらえるとありがたいです。
